@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Sejal 💖</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ff9a3c,#ff4d9d,#7f3cff);
+  overflow:hidden;
+}
+
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.page.active{display:flex;}
+
+.card{
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(15px);
+  border-radius:22px;
+  padding:30px;
+  text-align:center;
+  color:white;
+  width:90%;
+  max-width:360px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+h1{font-size:2.1em;margin-bottom:10px;}
+p{opacity:.9;margin-top:8px;}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  margin-top:12px;
+  font-size:1em;
+  text-align:center;
+}
+
+.btn{
+  margin-top:20px;
+  padding:12px;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff4d6d,#ffbe0b);
+  color:#000;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.error{
+  color:#ffd6d6;
+  font-size:.9em;
+  margin-top:8px;
+  display:none;
+}
+
+/* Gift */
+.gift{
+  font-size:80px;
+  animation:bounce 1.2s infinite;
+  cursor:pointer;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+
+/* Photo */
+.photo{
+  width:200px;
+  height:200px;
+  border-radius:20px;
+  object-fit:cover;
+  display:none;
+  margin-top:15px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.4);
+}
+
+/* Typing */
+.typing{
+  border-right:2px solid white;
+  white-space:nowrap;
+  overflow:hidden;
+  display:inline-block;
+}
+
+/* Hearts */
+.heart{
+  position:absolute;
+  color:pink;
+  animation:float 6s linear infinite;
+  opacity:.6;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2023/03/14/audio_7e6bd13f64.mp3">
+</audio>
+
+<!-- PAGE 1 LOGIN -->
+<div class="page active" id="p1">
+  <div class="card">
+    <h1>Login</h1>
+    <input id="passInput" placeholder="Enter password">
+    <div class="error" id="err">Wrong password 💔</div>
+    <div class="btn" onclick="checkPass()">Login</div>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <div class="card">
+    <h1>✨ Surprise ✨</h1>
+    <p>Waiting for you 🎁</p>
+    <div class="btn" onclick="next()">Continue</div>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <div class="card">
+    <h1>🎉 Happy Birthday</h1>
+    <p>Sejal 🤍</p>
+    <div class="btn" onclick="next()">Continue</div>
+  </div>
+</div>
+
+<!-- PAGE 4 GIFT + PHOTO -->
+<div class="page" id="p4">
+  <div class="card">
+    <h1>Your Gift 🎁</h1>
+
+    <div class="gift" id="gift" onclick="openGift()">🎁</div>
+
+    <img src="sejal.jpg" class="photo" id="photo">
+
+    <p id="tapText">Tap the gift</p>
+
+    <div class="btn" id="photoBtn" style="display:none" onclick="next()">
+      Continue
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5 FINAL -->
+<div class="page" id="p5">
+  <div class="card">
+    <h1>Happy Birthday to you 🎉</h1>
+    <p>May Bappa bless you always 🙏🌸</p>
+    <br>
+    <p class="typing" id="sorry"></p>
+  </div>
+</div>
+
+<script>
+let page=1;
+
+/* PASSWORD CHECK */
+function checkPass(){
+  const val=document.getElementById("passInput").value.toLowerCase();
+  if(val==="sejal patwa"){
+    document.getElementById("err").style.display="none";
+    document.getElementById("music").play();
+    next();
+  }else{
+    document.getElementById("err").style.display="block";
+  }
+}
+
+/* NAVIGATION */
+function next(){
+  document.getElementById("p"+page).classList.remove("active");
+  page++;
+  document.getElementById("p"+page).classList.add("active");
+  if(page===5) typeSorry();
+}
+
+/* OPEN GIFT */
+function openGift(){
+  document.getElementById("gift").style.display="none";
+  document.getElementById("photo").style.display="block";
+  document.getElementById("tapText").innerText="🤍";
+  document.getElementById("photoBtn").style.display="block";
+}
+
+/* SORRY TYPING */
+const text="Sorry for wishing you late 😔🤍✨";
+let i=0;
+function typeSorry(){
+  if(i<text.length){
+    document.getElementById("sorry").textContent+=text[i];
+    i++;
+    setTimeout(typeSorry,90);
+  }
+}
+
+/* HEARTS */
+for(let i=0;i<30;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=4+Math.random()*4+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+</body>
+</html>
